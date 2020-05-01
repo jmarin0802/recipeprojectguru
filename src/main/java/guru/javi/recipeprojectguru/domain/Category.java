@@ -1,13 +1,12 @@
 package guru.javi.recipeprojectguru.domain;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 @Entity
@@ -19,7 +18,7 @@ public class Category {
 	private String description;
 	
 	@ManyToMany(mappedBy = "categories")
-	private Set<Recipe> recipes;
+	private Set<Recipe> recipes = new HashSet<Recipe>();
 
 	public Long getId() {
 		return id;

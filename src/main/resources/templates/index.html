@@ -6,6 +6,33 @@
 </head>
 <body>
 
-<h1>Mi recipe!</h1>
+<h2>Mi recipe!</h2>
+    <h2 th:text="'List of Recipe'">List of Recipe</h2>
+
+	<table class="table table-striped">
+		<thead>
+		<tr>
+			<th style="width: 10px;">Id</th>
+			<th style="width: 50px;">Description Recipe</th>
+			<th style="width: 10px;">prepTime</th>
+			<th style="width: 10px;">cookTime</th>
+			<!-- <th style="width: 50px;">source</th> 
+			<th style="width: 50px;">url</th> -->
+			<th style="width: 50px;">directions</th>
+			<th style="width: 50px;">difficulty</th>
+			<th style="width: 50px;">notes</th>
+			<th style="width: 50px;">ingredients</th>
+			<th style="width: 50px;">category</th>
+		</tr>
+		</thead>
+		<tbody>
+			<tr th:each="recipe:${recipes}">
+				<td th:text="${recipe.id}">1</td>
+				<td th:text="${recipe.description}">description</td>
+
+			</tr>
+		</tbody>
+		
+	</table>
 </body>
 </html>

@@ -1,5 +1,6 @@
 package guru.javi.recipeprojectguru.domain;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -13,7 +14,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -32,6 +32,8 @@ public class Recipe {
 	private Integer servings;
 	private String source;
 	private String url;
+	
+	@Lob
 	private String directions;
 	
 	@Lob
@@ -44,13 +46,21 @@ public class Recipe {
 	private Notes notes;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
-	private Set<Ingredient> ingredients;
+	private Set<Ingredient> ingredients = new HashSet<>();
 	
 	@ManyToMany
 	@JoinTable(name = "recipe_category", 
 	joinColumns = @JoinColumn(name = "recipe_id"), 
 	inverseJoinColumns = @JoinColumn(name = "category_id"))
-	private Set<Category> categories;
+	private Set<Category> categories = new HashSet<>();
+	
+	public Recipe(String description, Integer prepTime, Integer cookTime, Difficulty difficulty, String directions) {
+		this.description = description;
+		this.prepTime = prepTime;
+		this.cookTime = cookTime;
+		this.difficulty = difficulty;
+		this.directions = directions;
+	}
 
 	public Long getId() {
 		return id;
@@ -130,10 +140,13 @@ public class Recipe {
 
 	public void setNotes(Notes notes) {
 		this.notes = notes;
+		notes.setRecipe(this);
 	}
 
-	public Set<Ingredient> getIngredients() {
-		return ingredients;
+	public Recipe addIngredients(Ingredient ingredient) {
+		ingredients.add(ingredient);
+		ingredient.setRecipe(this);
+		return this;
 	}
 
 	public void setIngredients(Set<Ingredient> ingredients) {
