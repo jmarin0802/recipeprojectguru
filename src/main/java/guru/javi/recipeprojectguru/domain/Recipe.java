@@ -22,7 +22,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@AllArgsConstructor
 @Entity
 public class Recipe {
 	
@@ -67,13 +66,5 @@ public class Recipe {
 		ingredients.add(ingredient);
 		ingredient.setRecipe(this);
 		return this;
-	}
-
-	public Recipe(String description, Integer prepTime, Integer cookTime, Difficulty difficulty, String directions) {
-		this.description = description;
-		this.prepTime = prepTime;
-		this.cookTime = cookTime;
-		this.difficulty = difficulty;
-		this.directions = directions;
 	}
 }
