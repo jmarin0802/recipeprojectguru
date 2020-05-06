@@ -18,7 +18,9 @@ import guru.javi.recipeprojectguru.domain.Notes;
 import guru.javi.recipeprojectguru.domain.Recipe;
 import guru.javi.recipeprojectguru.domain.UnitOfMeasure;
 import guru.javi.recipeprojectguru.enump.Difficulty;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Component
 public class DataLoader implements ApplicationListener<ContextRefreshedEvent>{
 
@@ -34,7 +36,8 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent>{
 	
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
-		recipeRepository.saveAll(executerecipe());		
+		recipeRepository.saveAll(executerecipe());
+		log.debug("Loading Bootstrap data");
 	}
 
 	private List<Recipe> executerecipe() {
@@ -76,8 +79,9 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent>{
 		if(!fastFoodOptional.isPresent()) {
 			throw new RuntimeException("Expected Category not found");
 		}
-
 		Category fastFoodCategory = fastFoodOptional.get();
+		
+		log.debug("Ready category and UnitOfMeasure");
 		
 		//Ingredient of perfect guacamole
 		
@@ -110,16 +114,15 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent>{
 		perfectGuacamole.addIngredients(new Ingredient("ripe avocados",new BigDecimal(2), unitUOM));
 		perfectGuacamole.addIngredients(new Ingredient("salt, more to taste",new BigDecimal(1/4), teaspoonUOM));
 		perfectGuacamole.addIngredients(new Ingredient("fresh lime juice or lemon juice",new BigDecimal(1), tablespoonUOM));
-		
+		log.debug("created ingredients");
 		perfectGuacamole.getCategories().add(americanCategory);
 		perfectGuacamole.getCategories().add(mexicanCategory);		
 		perfectGuacamole.getCategories().add(fastFoodCategory);
-		
+		log.debug("add the categories");
 		List<Recipe> recipes= new ArrayList<>(1);
 		
 		recipes.add(perfectGuacamole);
 		
 		return recipes;
 	}
-
 }
