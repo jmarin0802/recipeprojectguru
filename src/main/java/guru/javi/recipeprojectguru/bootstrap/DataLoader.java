@@ -85,13 +85,8 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent>{
 		
 		//Ingredient of perfect guacamole
 		
-		Recipe perfectGuacamole = new Recipe();
-		
-        perfectGuacamole.setDescription("Perfect Guacamole");
-        perfectGuacamole.setPrepTime(10);
-        perfectGuacamole.setCookTime(0);
-        perfectGuacamole.setDifficulty(Difficulty.EASY);
-        perfectGuacamole.setDirections("1 Cut avocado, remove flesh: Cut the avocados in half. Remove seed. Score the inside of the avocado with a blunt knife and scoop out the flesh with a spoon" +
+		String description = "The trick to making perfect guacamole is using ripe avocados that are just the right amount of ripeness. Not ripe enough and the avocado will be hard and tasteless. Too ripe and the taste will be off.";
+		String directions = "1 Cut avocado, remove flesh: Cut the avocados in half. Remove seed. Score the inside of the avocado with a blunt knife and scoop out the flesh with a spoon" +
                 "\n" +
                 "2 Mash with a fork: Using a fork, roughly mash the avocado. (Don't overdo it! The guacamole should be a little chunky.)" +
                 "\n" +
@@ -102,7 +97,9 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent>{
                 "Chilling tomatoes hurts their flavor, so if you want to add chopped tomato to your guacamole, add it just before serving.\n" +
                 "\n" +
                 "\n" +
-                "Read more: http://www.simplyrecipes.com/recipes/perfect_guacamole/#ixzz4jvpiV9Sd");
+                "Read more: http://www.simplyrecipes.com/recipes/perfect_guacamole/#ixzz4jvpiV9Sd";
+		
+		Recipe perfectGuacamole = new Recipe(description, 10, 0, Difficulty.EASY, directions);
 		
 		Notes notes = new Notes();
 		notes.setNotes("For a very quick guacamole just take a 1/4 cup of salsa and mix it in with your mashed avocados.\n" +
