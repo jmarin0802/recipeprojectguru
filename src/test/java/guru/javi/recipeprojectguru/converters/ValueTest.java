@@ -1,5 +1,6 @@
 package guru.javi.recipeprojectguru.converters;
 
+import java.math.BigDecimal;
 
 public class ValueTest {
 
@@ -11,5 +12,5 @@ public class ValueTest {
 	public static String source = "def";
 	public static String url = "ghi";
 	public static String directions = "jkl";
-	
+	public static BigDecimal amount = new BigDecimal(100);
 }
