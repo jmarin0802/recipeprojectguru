@@ -7,6 +7,7 @@ import com.sun.istack.Nullable;
 
 import guru.javi.recipeprojectguru.commands.IngredientCommand;
 import guru.javi.recipeprojectguru.domain.Ingredient;
+import guru.javi.recipeprojectguru.domain.Recipe;
 
 /*
  *Created for jalemaov on 21-05-2020
@@ -24,8 +25,14 @@ public class IngredientCommandToIngredient implements Converter<IngredientComman
 	@Override
 	public Ingredient convert(IngredientCommand source) {
 		if(source == null) return null;
-		Ingredient ingredient = new Ingredient();
+		final Ingredient ingredient = new Ingredient();
 		ingredient.setId(source.getId());
+		if(source.getRecipeId() != null) {
+            Recipe recipe = new Recipe();
+            recipe.setId(source.getRecipeId());
+            ingredient.setRecipe(recipe);
+            recipe.addIngredients(ingredient);
+		}
 		ingredient.setDescription(source.getDescription());
 		ingredient.setAmount(source.getAmount());
 		ingredient.setUnitOfMeasure(unitOfMeasureCommandToUnitOfMeasure.convert(source.getUnitOfMeasure()));
