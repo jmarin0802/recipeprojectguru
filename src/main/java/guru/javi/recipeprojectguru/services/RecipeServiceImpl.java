@@ -37,6 +37,7 @@ public class RecipeServiceImpl implements RecipeService {
 
 	@Override
 	public Recipe findById(Long id) {
+		log.debug("I'm in the service findById - recipeId: "+id);
 		Optional <Recipe> recipeOptional = recipeRepository.findById(id);
 		if(!recipeOptional.isPresent()) {
 			throw new RuntimeException("Recipe not found");
@@ -54,6 +55,7 @@ public class RecipeServiceImpl implements RecipeService {
 
 	@Override
 	public RecipeCommand findByCommandId(Long id) {
+		log.debug("I'm service findbycommandid - recipeid: "+id);
 		return recipeToRecipeCommand.convert(findById(id));
 	}
 

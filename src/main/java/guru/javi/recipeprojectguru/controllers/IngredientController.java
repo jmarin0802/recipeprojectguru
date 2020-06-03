@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 
 
 import guru.javi.recipeprojectguru.commands.IngredientCommand;
-import guru.javi.recipeprojectguru.commands.RecipeCommand;
 import guru.javi.recipeprojectguru.commands.UnitOfMeasureCommand;
 import guru.javi.recipeprojectguru.services.IngredientService;
 import guru.javi.recipeprojectguru.services.RecipeService;
