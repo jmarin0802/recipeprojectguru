@@ -18,10 +18,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import guru.javi.recipeprojectguru.enump.Difficulty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Setter
+@Getter
 @Entity
 public class Recipe {
 	
