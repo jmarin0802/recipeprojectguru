@@ -1,41 +1,52 @@
 package guru.javi.recipeprojectguru.services;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.*;
 
 import java.util.Optional;
-
-import static org.mockito.ArgumentMatchers.anyLong;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import guru.javi.recipeprojectguru.Repositories.RecipeRepository;
+import guru.javi.recipeprojectguru.Repositories.UnitOfMeasureRepository;
 import guru.javi.recipeprojectguru.commands.IngredientCommand;
+import guru.javi.recipeprojectguru.converters.IngredientCommandToIngredient;
 import guru.javi.recipeprojectguru.converters.IngredientToIngredientCommand;
+import guru.javi.recipeprojectguru.converters.UnitOfMeasureCommandToUnitOfMeasure;
+import guru.javi.recipeprojectguru.converters.UnitOfMeasureToUnitOfMeasureCommand;
 import guru.javi.recipeprojectguru.domain.Ingredient;
 import guru.javi.recipeprojectguru.domain.Recipe;
 
-class IngredientServiceImplTest {
+public class IngredientServiceImplTest {
 
-	@Mock
-	RecipeRepository recipeRepository;
-	@Mock
-	IngredientToIngredientCommand ingredientToIngredientCommand;
-	IngredientService ingredientService;
+    private final IngredientToIngredientCommand ingredientToIngredientCommand;
+    private final IngredientCommandToIngredient ingredientCommandToIngredient;
+
+    @Mock
+    RecipeRepository recipeRepository;
+
+    @Mock
+    UnitOfMeasureRepository unitOfMeasureRepository;
+
+    IngredientService ingredientService;
+    
+    public IngredientServiceImplTest() {
+        this.ingredientToIngredientCommand = new IngredientToIngredientCommand(new UnitOfMeasureToUnitOfMeasureCommand());
+        this.ingredientCommandToIngredient = new IngredientCommandToIngredient(new UnitOfMeasureCommandToUnitOfMeasure());
+    }
 	
-	@BeforeEach
-	void setUp() throws Exception {
-		MockitoAnnotations.initMocks(this);
-		//ingredientService = new IngredientServiceImpl(recipeRepository, ingredientRepository, unitOfMeasureRepository, ingredientToIngredientCommand, ingredientCommandToIngredient)
-	}
+    @Before
+    public void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
+
+        ingredientService = new IngredientServiceImpl(recipeRepository, unitOfMeasureRepository, ingredientToIngredientCommand, ingredientCommandToIngredient);
+    }
 
 	@Test
-	void testFindByRecipeIdAndIngredientId()  throws Exception{
+	public void testFindByRecipeIdAndIngredientId()  throws Exception{
 		//given
         Recipe recipe = new Recipe();
         recipe.setId(1L);

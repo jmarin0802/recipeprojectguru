@@ -35,27 +35,29 @@ public class IngredientServiceImpl implements IngredientService {
 		this.ingredientCommandToIngredient = ingredientCommandToIngredient;
 	}
 
-	@Override
-	public IngredientCommand findByRecipeIdAndIngredientId(Long recipeId, Long ingredientId) {
+    @Override
+    public IngredientCommand findByRecipeIdAndIngredientId(Long recipeId, Long ingredientId) {
 
-		Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
-		if (!recipeOptional.isPresent()) {
-			log.error("recipe id not found id: " + recipeId);
-		}
+        Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
 
-		Recipe recipe = recipeOptional.get();
+        if (!recipeOptional.isPresent()){
+            //todo impl error handling
+            log.error("recipe id not found. Id: " + recipeId);
+        }
 
-		Optional<IngredientCommand> ingredientCommandOptional = recipe.getIngredients().stream()
-				.filter(ingredient -> ingredient.getId().equals(ingredientId))
-				.map(ingredient -> ingredientToIngredientCommand.convert(ingredient)).findFirst();
+        Recipe recipe = recipeOptional.get();
 
-		if (!ingredientCommandOptional.isPresent()) {
-			log.error("Ingredient id not found: " + ingredientId);
-		}
+        Optional<IngredientCommand> ingredientCommandOptional = recipe.getIngredients().stream()
+                .filter(ingredient -> ingredient.getId().equals(ingredientId))
+                .map( ingredient -> ingredientToIngredientCommand.convert(ingredient)).findFirst();
 
-		return ingredientCommandOptional.get();
-	}
+        if(!ingredientCommandOptional.isPresent()){
+            //todo impl error handling
+            log.error("Ingredient id not found: " + ingredientId);
+        }
 
+        return ingredientCommandOptional.get();
+    }
 	@Override
 	@Transactional
 	public IngredientCommand savedIngredientCommand(IngredientCommand ingredientCommand) {
