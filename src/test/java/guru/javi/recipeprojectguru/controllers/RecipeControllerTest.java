@@ -12,6 +12,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -20,8 +22,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import guru.javi.recipeprojectguru.Repositories.RecipeRepository;
 import guru.javi.recipeprojectguru.commands.RecipeCommand;
 import guru.javi.recipeprojectguru.domain.Recipe;
+import guru.javi.recipeprojectguru.exceptions.NotFoundException;
 import guru.javi.recipeprojectguru.services.RecipeService;
 
 /*
@@ -31,6 +35,9 @@ class RecipeControllerTest {
 
 	@Mock
 	RecipeService recipeService;
+	
+	@Mock
+	RecipeRepository recipeRepository;
 	
 	RecipeController recipeController;
 	MockMvc mockMvc;
@@ -97,4 +104,25 @@ class RecipeControllerTest {
 		
 		verify(recipeService, times(1)).deleteById(anyLong());
 	}
+	
+    @Test
+    public void testGetRecipeNotFound() throws Exception {
+
+        when(recipeService.findById(anyLong())).thenThrow(NotFoundException.class);
+
+        mockMvc.perform(get("/recipe/1/show"))
+                .andExpect(status().isNotFound())
+                .andExpect(view().name("404NotFound"));
+    }
+    
+    @Test
+    public void testGetRecipeNumberFormatException() throws Exception {
+
+        //when(recipeService.findById(anyLong())).thenThrow(NotFoundException.class);
+
+        mockMvc.perform(get("/recipe/asdf/show"))
+                .andExpect(status().isBadRequest())
+                .andExpect(view().name("400error"));
+    }
+
 }

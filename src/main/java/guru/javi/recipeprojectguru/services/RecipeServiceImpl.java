@@ -11,6 +11,7 @@ import guru.javi.recipeprojectguru.commands.RecipeCommand;
 import guru.javi.recipeprojectguru.converters.RecipeCommandToRecipe;
 import guru.javi.recipeprojectguru.converters.RecipeToRecipeCommand;
 import guru.javi.recipeprojectguru.domain.Recipe;
+import guru.javi.recipeprojectguru.exceptions.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -40,7 +41,7 @@ public class RecipeServiceImpl implements RecipeService {
 		log.debug("I'm in the service findById - recipeId: "+id);
 		Optional <Recipe> recipeOptional = recipeRepository.findById(id);
 		if(!recipeOptional.isPresent()) {
-			throw new RuntimeException("Recipe not found");
+			throw new NotFoundException("Recipe not found, for Id value: "+ id.toString());
 		}
 		return recipeOptional.get();
 	}
